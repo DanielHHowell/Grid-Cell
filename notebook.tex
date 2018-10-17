@@ -1,0 +1,1242 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Grid Cell Phase Main}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \section{Grid Cell Phase Coding}\label{grid-cell-phase-coding}
+
+Phases are in radians, coordinates are in {[}m{]} and time base is
+{[}ms{]}. The first data point in XYspkT corresponds with the first
+spike, which also corresponds with the first phase value and so on. So
+those files should have the same number of rows and if you merge them as
+columns each row should correspond with the same spike event. So here is
+an important detail to pay attention to. \textbf{Because the spike times
+in the file are not in an ascending order but in the order of cells
+combined (like cell1 t1, cell1 t2, cell1 t3,..., cell2 t1, cell2 t2,
+cell2 t3,...) if you sort them you will need to reindex the XYspkT and
+Phase data too.} Or you just leave them as they are. Then they remain
+aligned.
+
+The ultimate task is to predict the place where the avatar goes next
+based on the phase of the next spike. We have all the info we need. We
+know where the avatar is in space (X,Y), we know the phase of the next
+spike and we know the average map of all phases. We just need to find
+where the next spike would best fit on that map of opportunities based
+on average phases. Because average phases tessellate like grids,
+therefore for a given spike phase there are multiple spots in the field
+where that spike can ideally land. Of course the real landing spot is
+one that is nearby, since the avatar does not jump. So we need to look
+the map of average phases at the local neighborhood and find the best
+match between the actual phase and the average phase map. The vector
+between the avatar's actual position and the predicted position (i.e the
+position where the phase of next spike would best match) defines a
+vector of moving direction. These are the small arrows in my plot.
+
+An example:\\
+Let say the spike that just happened at t0 was generated at 30 degree
+(0.5236 rad) of the ongoing gamma cycle. We know the avatar's spatial
+position (X,Y). We also know that next spike t1 will be generated at 45
+degree but we don't know at what spatial position. So we are considering
+the next 6 spikes (where 6 is an arbitrary number) or a 5 x 5 m area
+around the spike (where 5 is an arbitrary metric) and try to find a tile
+with the average phase that best fit to the phase of next spike. That
+tile would be our best guess for the next position of the avatar. The
+figure I will send next illustrates these steps. You see the trajectory
+in grey, the movement segments in blue. The hairy graph is the predicted
+direction. Each small linelet is a predicted direction, sometimes aligne
+sometimes don't. The last two plots are the direction angle difference
+between predicted and actual movement directions and the matrix of
+decoding performance, i.e. the correlation between observed and
+predicted direction angles.
+
+Of course, for a cross-validation purpose, we will need to divide the
+data into a training set and decoding set (or predicting set). That will
+be the second step. (I did that and got some nice results.) But for
+start, let's just try to decode the phase using the entire 5 min data.
+
+\subsubsection{add firing map}\label{add-firing-map}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+        \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+        \PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+        
+        \PY{c+c1}{\PYZsh{}\PYZpc{}matplotlib inline}
+        \PY{n}{np}\PY{o}{.}\PY{n}{set\PYZus{}printoptions}\PY{p}{(}\PY{n}{suppress}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+        \PY{o}{\PYZpc{}}\PY{k}{config} InLineBackend.figure\PYZus{}format = \PYZsq{}retina\PYZsq{}
+\end{Verbatim}
+
+
+    \subsection{XYspktT}\label{xyspktt}
+
+XYspktT contains the X,Y coordinates of spikes. Spikes from all 30
+neurons are combined in a single spike train. The X and Y columns
+represent the avatar's X-Y coordinate in {[}m{]} relative to the
+environment at the moment of the spike.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{n}{XYspkT} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{loadtxt}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{XYspkT.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{delimiter}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{scaled\PYZus{}XY} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{p}{(}\PY{n}{XYspkT}\PY{o}{+}\PY{l+m+mi}{40}\PY{p}{)}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{scaled\PYZus{}XY}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{}2x2 meter bin}
+        
+        \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{XYspkT}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{n}{XYspkT}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[[ 9. 22.]
+ [ 9. 22.]
+ [27. 23.]
+ {\ldots}
+ [ 9. 21.]
+ [27. 23.]
+ [28. 23.]]
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}2}]:} [<matplotlib.lines.Line2D at 0x7f571f8ea518>]
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_3_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{spkT}\label{spkt}
+
+spkT contains the times of the spikes in ms
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{n}{spkT} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{loadtxt}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{spkT.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{delimiter}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{spkT}\PY{p}{)}
+        \PY{n}{spkT}\PY{o}{.}\PY{n}{shape}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[ 27466.  29501.  36602. {\ldots} 288400. 295600. 297440.]
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}3}]:} (1178,)
+\end{Verbatim}
+            
+    \subsection{Phase}\label{phase}
+
+Phase is the corresponding (gamma) phase of the spikes - what phase the
+gamma oscillation was at them moment of spike
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{n}{phase} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{loadtxt}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Phase.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{delimiter}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{scaled\PYZus{}phase} \PY{o}{=} \PY{n}{phase}\PY{o}{\PYZhy{}}\PY{l+m+mf}{3.14}
+        
+        \PY{n}{phase\PYZus{}degrees} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{degrees}\PY{p}{(}\PY{n}{phase}\PY{p}{)}
+        \PY{n}{sorted\PYZus{}phase} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{phase\PYZus{}degrees}\PY{p}{)}
+        
+        
+        \PY{c+c1}{\PYZsh{}Radial histogram of phase distribution}
+        \PY{c+c1}{\PYZsh{}https://matplotlib.org/examples/pie\PYZus{}and\PYZus{}polar\PYZus{}charts/polar\PYZus{}bar\PYZus{}demo.html}
+        \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+        \PY{n}{ax} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}axes}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.8}\PY{p}{,} \PY{l+m+mf}{0.8}\PY{p}{]}\PY{p}{,} \PY{n}{polar}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+        \PY{n}{theta} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{radians}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{366}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+        
+        \PY{n}{inds} \PY{o}{=} \PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{sorted\PYZus{}phase}\PY{o}{\PYZlt{}}\PY{n}{i}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,}\PY{l+m+mi}{366}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{]} \PY{c+c1}{\PYZsh{}vectorize operation?}
+        \PY{n}{b} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{n}{sorted\PYZus{}phase}\PY{p}{,}\PY{n}{inds}\PY{p}{)}
+        \PY{n}{radii} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{i}\PY{o}{.}\PY{n}{size}\PY{o}{/}\PY{l+m+mf}{3.2} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{b}\PY{p}{]}\PY{p}{)}
+        
+        \PY{n}{width} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{radians}\PY{p}{(}\PY{l+m+mi}{360}\PY{o}{/}\PY{l+m+mi}{60}\PY{p}{)}
+        \PY{n}{bars} \PY{o}{=} \PY{n}{ax}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{theta}\PY{p}{,} \PY{n}{radii}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{n}{width}\PY{p}{,} \PY{n}{bottom}\PY{o}{=}\PY{l+m+mf}{0.0}\PY{p}{)}
+        \PY{k}{for} \PY{n}{theta}\PY{p}{,} \PY{n}{bar} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{theta}\PY{p}{,} \PY{n}{bars}\PY{p}{)}\PY{p}{:}
+            \PY{n}{bar}\PY{o}{.}\PY{n}{set\PYZus{}facecolor}\PY{p}{(}\PY{n}{plt}\PY{o}{.}\PY{n}{cm}\PY{o}{.}\PY{n}{hsv}\PY{p}{(}\PY{n}{theta}\PY{o}{/}\PY{l+m+mf}{6.28}\PY{p}{)}\PY{p}{)}
+            \PY{n}{bar}\PY{o}{.}\PY{n}{set\PYZus{}alpha}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{p}{)}
+        
+        \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_7_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{MeanPhaseMap}\label{meanphasemap}
+
+MeanPhaseMap the map of gamma phases. This is a 40x43 matrix that
+represents the 80x86 m land of the desert, the area covered by the
+avatar's navigation. The lot of NaN data correspond with areas never
+visited. A given value at the n-th row and m-th column represents the
+average phase of spikes (all spikes) within that area during the entire
+5 min navigation.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{raw} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{loadtxt}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MeanPhaseMap.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{delimiter}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{}Flipping to match the other plots and stripping erraneous values bordering the top row and right column}
+        \PY{n}{MeanPhaseMap} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{flip}\PY{p}{(}\PY{n}{raw}\PY{p}{,}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+        
+        \PY{n}{plt}\PY{o}{.}\PY{n}{matshow}\PY{p}{(}\PY{n}{MeanPhaseMap}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{colorbar}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}5}]:} <matplotlib.colorbar.Colorbar at 0x7f57588c0e10>
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_9_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{Binned Phase Map / Single Unit
+Simulation}\label{binned-phase-map-single-unit-simulation}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{MPM3} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{40}\PY{p}{,}\PY{l+m+mi}{43}\PY{p}{)}\PY{p}{)}
+        \PY{n}{MPM3}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{MeanPhaseMap}\PY{o}{\PYZgt{}}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{MeanPhaseMap}\PY{o}{\PYZgt{}}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{1}
+        \PY{n}{MPM3}
+        \PY{c+c1}{\PYZsh{}filter to remove single pixels}
+        \PY{c+c1}{\PYZsh{}average internode distance}
+        
+        \PY{c+c1}{\PYZsh{}time based meanphasemap of first hslf, traj from second}
+        
+        \PY{n}{plt}\PY{o}{.}\PY{n}{matshow}\PY{p}{(}\PY{n}{MPM3}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{colorbar}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/daniel/anaconda3/lib/python3.6/site-packages/ipykernel\_launcher.py:2: RuntimeWarning: invalid value encountered in greater
+  
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}6}]:} <matplotlib.colorbar.Colorbar at 0x7f571f774668>
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_11_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{n}{MPM2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{40}\PY{p}{,}\PY{l+m+mi}{43}\PY{p}{)}\PY{p}{)}
+        \PY{n}{MPM2}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{MeanPhaseMap}\PY{o}{\PYZlt{}}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{MeanPhaseMap}\PY{o}{\PYZlt{}}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{1}
+        \PY{n}{MPM2}
+        
+        
+        \PY{n}{plt}\PY{o}{.}\PY{n}{matshow}\PY{p}{(}\PY{n}{MPM2}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{colorbar}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/daniel/anaconda3/lib/python3.6/site-packages/ipykernel\_launcher.py:2: RuntimeWarning: invalid value encountered in less
+  
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}7}]:} <matplotlib.colorbar.Colorbar at 0x7f571f6a8320>
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_12_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{xyPos}\label{xypos}
+
+xyPos is the trajectory traveled by the avatar. Each row is an X-Y data
+pair in {[}m{]} sampled in every ms. It is the biggest file because of
+the density of points. You can down-sample it to make it more
+manageable.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{n}{xyPos} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{loadtxt}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xyPos.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{delimiter}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{l+m+mi}{25}\PY{p}{]}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{xyPos}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{}Trajectory overlaid with XYspkT}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{xyPos}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{n}{xyPos}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{XYspkT}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{n}{XYspkT}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{markersize}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[[-8.9817  -1.8094 ]
+ [-8.9817  -1.8094 ]
+ [-8.9817  -1.8094 ]
+ {\ldots}
+ [12.56    -0.31861]
+ [12.502   -0.42871]
+ [12.443   -0.53836]]
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}8}]:} [<matplotlib.lines.Line2D at 0x7f571cafb518>]
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{Combined Position, Time and Phase
+DataFrame}\label{combined-position-time-and-phase-dataframe}
+
+X,Y position, change in distance, time and phase data sorted by
+trajectory from the Time column in a dataframe
+
+    \subsection{MeanPhaseMap DataFrame}\label{meanphasemap-dataframe}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{n}{phase\PYZus{}df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{MeanPhaseMap}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{44}\PY{p}{)}\PY{p}{)}
+        \PY{n}{phase\PYZus{}df}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}9}]:}         0        1         2        3         4         5        6        7   \textbackslash{}
+        0      NaN      NaN       NaN      NaN       NaN       NaN      NaN      NaN   
+        1      NaN  3.08440       NaN -1.56840       NaN       NaN      NaN      NaN   
+        2      NaN  3.08440       NaN      NaN -1.683700 -1.576300      NaN      NaN   
+        3      NaN      NaN       NaN      NaN       NaN -1.508800      NaN      NaN   
+        4      NaN -2.84580       NaN      NaN       NaN -2.508200 -2.50820      NaN   
+        5      NaN -2.84580       NaN      NaN       NaN       NaN -2.47300      NaN   
+        6      NaN      NaN       NaN      NaN       NaN       NaN  2.84150      NaN   
+        7      NaN      NaN       NaN -2.03110       NaN       NaN      NaN      NaN   
+        8      NaN      NaN       NaN -1.96730       NaN       NaN  1.39460  1.39460   
+        9      NaN      NaN       NaN      NaN -1.949400       NaN  0.74374  0.74374   
+        10     NaN      NaN       NaN      NaN       NaN       NaN      NaN -0.87380   
+        11     NaN      NaN       NaN      NaN       NaN       NaN      NaN -1.26680   
+        12     NaN      NaN       NaN      NaN       NaN -0.054236 -0.50733 -1.74220   
+        13     NaN      NaN       NaN      NaN       NaN       NaN      NaN -2.13410   
+        14     NaN      NaN       NaN      NaN       NaN       NaN -1.16400 -2.97300   
+        15     NaN      NaN       NaN      NaN       NaN       NaN      NaN -1.84710   
+        16     NaN      NaN       NaN      NaN       NaN       NaN      NaN      NaN   
+        17     NaN      NaN       NaN      NaN       NaN       NaN      NaN      NaN   
+        18     NaN      NaN       NaN      NaN       NaN       NaN      NaN      NaN   
+        19     NaN      NaN       NaN      NaN       NaN       NaN      NaN      NaN   
+        20     NaN      NaN       NaN      NaN       NaN       NaN      NaN      NaN   
+        21     NaN      NaN       NaN      NaN       NaN       NaN      NaN  0.41449   
+        22     NaN      NaN       NaN      NaN       NaN       NaN      NaN  0.95183   
+        23     NaN      NaN       NaN      NaN       NaN       NaN  1.46650  0.70019   
+        24     NaN      NaN       NaN      NaN       NaN       NaN  2.93130 -1.73460   
+        25     NaN      NaN       NaN      NaN       NaN  0.295070  0.25345      NaN   
+        26     NaN      NaN       NaN      NaN       NaN -1.990600 -1.99060      NaN   
+        27     NaN      NaN       NaN      NaN       NaN  2.777000      NaN      NaN   
+        28     NaN      NaN       NaN      NaN -2.252100 -2.168300      NaN      NaN   
+        29     NaN      NaN       NaN -1.43180 -1.456100 -1.372900      NaN      NaN   
+        30     NaN      NaN       NaN -0.49505 -0.686550       NaN      NaN      NaN   
+        31     NaN      NaN  0.040979  0.21299 -0.036272       NaN      NaN      NaN   
+        32     NaN      NaN -0.001188  0.22380       NaN       NaN      NaN      NaN   
+        33     NaN -0.40405  0.176140      NaN       NaN       NaN      NaN      NaN   
+        34     NaN      NaN -2.342500      NaN       NaN       NaN      NaN      NaN   
+        35 -0.9513 -2.49510  2.596700      NaN       NaN       NaN      NaN      NaN   
+        36 -0.9513 -0.94816       NaN      NaN       NaN       NaN  2.55790  2.19850   
+        37     NaN      NaN       NaN      NaN       NaN       NaN  2.20290      NaN   
+        38     NaN -1.85060       NaN      NaN -2.551800  2.874200      NaN      NaN   
+        39     NaN      NaN       NaN -1.90890       NaN       NaN      NaN      NaN   
+        40     NaN      NaN       NaN      NaN       NaN       NaN      NaN      NaN   
+        41     NaN      NaN       NaN      NaN       NaN       NaN      NaN      NaN   
+        42     NaN      NaN       NaN      NaN       NaN       NaN      NaN      NaN   
+        
+                 8       9  {\ldots}       34      35       36       37        38      39  \textbackslash{}
+        0       NaN     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        1       NaN     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        2       NaN     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        3       NaN     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        4       NaN     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        5       NaN     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        6       NaN     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        7       NaN  1.2731 {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        8       NaN     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        9       NaN     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        10      NaN     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        11      NaN     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        12 -2.10360     NaN {\ldots} -2.89740  2.1500      NaN      NaN       NaN     NaN   
+        13 -2.69010     NaN {\ldots}      NaN     NaN -0.28673      NaN       NaN     NaN   
+        14  2.67230     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        15 -2.36700     NaN {\ldots}      NaN     NaN  2.59140      NaN       NaN     NaN   
+        16 -2.56090     NaN {\ldots}      NaN  2.5914      NaN      NaN       NaN     NaN   
+        17 -2.17650     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        18 -1.38880 -1.8157 {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        19 -1.08850 -1.6503 {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        20 -0.46054 -2.5307 {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        21 -0.23053 -2.4654 {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        22      NaN -1.7112 {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        23 -0.75940     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        24 -1.45170     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        25 -2.35460     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        26 -2.28440     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        27  1.84290  1.8429 {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        28      NaN  3.0587 {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        29      NaN  2.7132 {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        30      NaN -3.0543 {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        31      NaN  3.0087 {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        32      NaN  2.1629 {\ldots}  2.62010 -2.6777      NaN      NaN       NaN     NaN   
+        33      NaN  2.8689 {\ldots} -3.09480     NaN      NaN  0.74541       NaN     NaN   
+        34      NaN  2.1476 {\ldots}      NaN -3.0818      NaN      NaN -0.006491     NaN   
+        35 -2.50910     NaN {\ldots}      NaN     NaN -1.79400  1.40470       NaN     NaN   
+        36  2.99320     NaN {\ldots} -0.59774     NaN      NaN      NaN  2.157300     NaN   
+        37      NaN     NaN {\ldots}      NaN     NaN  3.02400  2.13010  1.343500     NaN   
+        38      NaN     NaN {\ldots}      NaN     NaN  3.02400  2.55580  2.264300     NaN   
+        39      NaN     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN  1.6666   
+        40      NaN     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        41      NaN     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        42      NaN     NaN {\ldots}      NaN     NaN      NaN      NaN       NaN     NaN   
+        
+               40  41  42  43  
+        0     NaN NaN NaN NaN  
+        1     NaN NaN NaN NaN  
+        2     NaN NaN NaN NaN  
+        3     NaN NaN NaN NaN  
+        4     NaN NaN NaN NaN  
+        5     NaN NaN NaN NaN  
+        6     NaN NaN NaN NaN  
+        7     NaN NaN NaN NaN  
+        8     NaN NaN NaN NaN  
+        9     NaN NaN NaN NaN  
+        10    NaN NaN NaN NaN  
+        11    NaN NaN NaN NaN  
+        12    NaN NaN NaN NaN  
+        13    NaN NaN NaN NaN  
+        14    NaN NaN NaN NaN  
+        15    NaN NaN NaN NaN  
+        16    NaN NaN NaN NaN  
+        17    NaN NaN NaN NaN  
+        18    NaN NaN NaN NaN  
+        19    NaN NaN NaN NaN  
+        20    NaN NaN NaN NaN  
+        21    NaN NaN NaN NaN  
+        22    NaN NaN NaN NaN  
+        23    NaN NaN NaN NaN  
+        24    NaN NaN NaN NaN  
+        25    NaN NaN NaN NaN  
+        26    NaN NaN NaN NaN  
+        27    NaN NaN NaN NaN  
+        28    NaN NaN NaN NaN  
+        29    NaN NaN NaN NaN  
+        30    NaN NaN NaN NaN  
+        31    NaN NaN NaN NaN  
+        32    NaN NaN NaN NaN  
+        33    NaN NaN NaN NaN  
+        34    NaN NaN NaN NaN  
+        35    NaN NaN NaN NaN  
+        36    NaN NaN NaN NaN  
+        37    NaN NaN NaN NaN  
+        38  2.186 NaN NaN NaN  
+        39    NaN NaN NaN NaN  
+        40    NaN NaN NaN NaN  
+        41    NaN NaN NaN NaN  
+        42    NaN NaN NaN NaN  
+        
+        [43 rows x 44 columns]
+\end{Verbatim}
+            
+    \subsubsection{Adjacent Matrix Function}\label{adjacent-matrix-function}
+
+Returns a 5x5 array to analyze a region of space adjacent to a target
+location within the MeanPhaseMap, then finds the x and y difference from
+the center to cell to the cell with the cloest matching value (of
+phase).
+
+example return array:
+
+\begin{verbatim}
+   [ 3.0844,     nan, -1.5684,     nan,     nan],
+
+   [ 3.0844,     nan,     nan, -1.6837, -1.5763],
+   
+   [    nan,     nan,     nan,     nan, -1.5088],
+   
+   [-2.8458,     nan,     nan,     nan, -2.5082],
+   
+   [-2.8458,     nan,     nan,     nan,     nan]
+\end{verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}57}]:} \PY{k}{def} \PY{n+nf}{adjacent\PYZus{}matrix}\PY{p}{(}\PY{n}{cell}\PY{p}{)}\PY{p}{:}
+             \PY{c+c1}{\PYZsh{}Find more elegant way to do this \PYZti{}}
+             
+             \PY{n}{cell} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{n+nb}{int}\PY{p}{,} \PY{n}{cell}\PY{p}{)}\PY{p}{)}
+             \PY{n}{a} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+             \PY{n}{c\PYZus{}y} \PY{o}{=} \PY{n}{cell}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+             \PY{n}{c\PYZus{}x} \PY{o}{=} \PY{n}{cell}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+             
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{+}\PY{l+m+mi}{2}\PY{p}{]}
+             
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{+}\PY{l+m+mi}{2}\PY{p}{]}
+         
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{+}\PY{l+m+mi}{2}\PY{p}{]}
+             
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{+}\PY{l+m+mi}{2}\PY{p}{]}
+             
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{+}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{+}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{+}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{+}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{phase\PYZus{}df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{c\PYZus{}x}\PY{o}{+}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{c\PYZus{}y}\PY{o}{+}\PY{l+m+mi}{2}\PY{p}{]}
+             
+             \PY{k}{return} \PY{n}{a}
+             
+         
+         \PY{k}{def} \PY{n+nf}{nearest\PYZus{}phase}\PY{p}{(}\PY{n}{array}\PY{p}{,}\PY{n}{phase}\PY{p}{)}\PY{p}{:}
+             
+             \PY{k}{try}\PY{p}{:}
+                 \PY{c+c1}{\PYZsh{}Determines change vector from central cell}
+                 \PY{c+c1}{\PYZsh{}to cell nearest in value in 5x5}
+                 \PY{n}{am} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{nanargmin}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{array}\PY{o}{\PYZhy{}}\PY{n}{phase}\PY{p}{)}\PY{p}{)}
+                 \PY{n}{loc} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{2}\PY{o}{\PYZhy{}}\PY{p}{(}\PY{n}{am}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{,}\PY{p}{(}\PY{n}{am}\PY{o}{\PYZpc{}}\PY{k}{5})\PYZhy{}2]
+                 \PY{k}{return} \PY{n}{loc}
+             
+             \PY{k}{except}\PY{p}{:}
+                 \PY{k}{return} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}
+             
+         \PY{k}{def} \PY{n+nf}{phase\PYZus{}from\PYZus{}movement}\PY{p}{(}\PY{n}{array}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{)}\PY{p}{:}
+             \PY{k}{try}\PY{p}{:}
+                 \PY{k}{return} \PY{n}{array}\PY{p}{[}\PY{l+m+mi}{2}\PY{o}{\PYZhy{}}\PY{n}{y}\PY{p}{,}\PY{l+m+mi}{2}\PY{o}{+}\PY{n}{x}\PY{p}{]}
+             \PY{k}{except}\PY{p}{:}
+                 \PY{k}{return} \PY{n}{array}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}
+             
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{adjacent\PYZus{}matrix}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{nearest\PYZus{}phase}\PY{p}{(}\PY{n}{adjacent\PYZus{}matrix}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{16}\PY{p}{,}\PY{l+m+mi}{19}\PY{p}{]}\PY{p}{)}\PY{p}{,}\PY{o}{\PYZhy{}}\PY{l+m+mf}{1.68}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{phase\PYZus{}from\PYZus{}movement}\PY{p}{(}\PY{n}{adjacent\PYZus{}matrix}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{16}\PY{p}{,}\PY{l+m+mi}{19}\PY{p}{]}\PY{p}{)}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[[-1.5684     nan     nan     nan     nan]
+ [    nan -1.6837 -1.5763     nan     nan]
+ [    nan     nan -1.5088     nan     nan]
+ [    nan     nan -2.5082 -2.5082     nan]
+ [    nan     nan     nan -2.473      nan]]
+[2, 2]
+2.1912
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}61}]:} \PY{n}{unsorted} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{column\PYZus{}stack}\PY{p}{(}\PY{p}{(}\PY{n}{spkT}\PY{p}{,}\PY{n}{scaled\PYZus{}XY}\PY{p}{,}\PY{n}{scaled\PYZus{}phase}\PY{p}{)}\PY{p}{)}
+         \PY{n}{combined} \PY{o}{=} \PY{n}{unsorted}\PY{p}{[}\PY{n}{unsorted}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{argsort}\PY{p}{(}\PY{p}{)}\PY{p}{]}
+         
+         \PY{n}{xdif} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{insert}\PY{p}{(}\PY{n}{combined}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{combined}\PY{p}{[}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{)}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+         \PY{n}{ydif} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{insert}\PY{p}{(}\PY{n}{combined}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{combined}\PY{p}{[}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{)}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+         
+         \PY{n}{almost\PYZus{}all} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{column\PYZus{}stack}\PY{p}{(}\PY{p}{(}\PY{n}{combined}\PY{p}{,}\PY{n}{xdif}\PY{p}{,}\PY{n}{ydif}\PY{p}{)}\PY{p}{)}
+         \PY{n}{predicted\PYZus{}movement} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{n}{nearest\PYZus{}phase}\PY{p}{(}\PY{n}{adjacent\PYZus{}matrix}\PY{p}{(}\PY{n}{i}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}\PY{p}{,}\PY{n}{i}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{almost\PYZus{}all}\PY{p}{]}\PY{p}{)}
+         \PY{n}{actual\PYZus{}phase} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{n}{phase\PYZus{}from\PYZus{}movement}\PY{p}{(}\PY{n}{adjacent\PYZus{}matrix}\PY{p}{(}\PY{n}{i}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}\PY{p}{,}\PY{n+nb}{int}\PY{p}{(}\PY{n}{i}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{)}\PY{p}{,}\PY{n+nb}{int}\PY{p}{(}\PY{n}{i}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{almost\PYZus{}all}\PY{p}{]}\PY{p}{)}
+         
+         \PY{n+nb}{all}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{column\PYZus{}stack}\PY{p}{(}\PY{p}{(}\PY{n}{almost\PYZus{}all}\PY{p}{,}\PY{n}{predicted\PYZus{}movement}\PY{p}{,} \PY{n}{actual\PYZus{}phase}\PY{p}{)}\PY{p}{)}
+         \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n+nb}{all}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{X}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Phase}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Xdif}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ydif}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Xdif Predicted}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ydif Predicted}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Actual Phase}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+         \PY{n}{df}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}61}]:}           Time     X     Y    Phase  Xdif  Ydif  Xdif Predicted  \textbackslash{}
+         0         16.0  16.0  19.0  1.48390   0.0   0.0            -1.0   
+         1        127.0  16.0  19.0  1.92930   0.0   0.0             0.0   
+         2        133.0  16.0  19.0  2.84280   0.0   0.0             0.0   
+         3        161.0  16.0  19.0  0.77570   0.0   0.0            -1.0   
+         4        275.0  16.0  19.0  2.91060   0.0   0.0             0.0   
+         5        863.0  16.0  19.0 -1.06580   0.0   0.0             2.0   
+         6        907.0  16.0  19.0  0.00880   0.0   0.0            -1.0   
+         7       1495.0  17.0  20.0 -2.40195   1.0   1.0            -2.0   
+         8       1950.0  18.0  21.0 -1.62510   1.0   1.0            -2.0   
+         9       2099.0  18.0  21.0  1.89900   0.0   0.0             2.0   
+         10      2157.0  18.0  21.0 -1.60010   0.0   0.0            -2.0   
+         11      2473.0  19.0  21.0 -2.99536   1.0   0.0             0.0   
+         12      3432.0  21.0  20.0 -0.06440   2.0  -1.0             1.0   
+         13      4263.0  23.0  18.0 -2.97689   2.0  -2.0             2.0   
+         14      4472.0  23.0  18.0  1.09290   0.0   0.0            -1.0   
+         15      4476.0  23.0  18.0  1.63430   0.0   0.0            -1.0   
+         16      4518.0  23.0  18.0  2.52390   0.0   0.0            -2.0   
+         17      4518.0  23.0  18.0  2.52390   0.0   0.0            -2.0   
+         18      4574.0  23.0  18.0 -0.59670   0.0   0.0             2.0   
+         19      4896.0  24.0  17.0 -2.18499   1.0  -1.0             2.0   
+         20      5112.0  24.0  17.0  1.32490   0.0   0.0            -1.0   
+         21      5176.0  24.0  17.0 -1.40510   0.0   0.0             1.0   
+         22      5311.0  24.0  17.0 -0.51610   0.0   0.0             1.0   
+         23      5323.0  24.0  17.0  1.80200   0.0   0.0            -2.0   
+         24      5684.0  24.0  17.0  1.80720   0.0   0.0            -2.0   
+         25      5762.0  24.0  17.0  2.91400   0.0   0.0             2.0   
+         26      5830.0  24.0  17.0  2.18460   0.0   0.0             2.0   
+         27      6302.0  24.0  17.0 -0.20420   0.0   0.0             1.0   
+         28      7114.0  23.0  17.0  1.09320  -1.0   0.0             2.0   
+         29      7397.0  22.0  18.0 -2.49696  -1.0   1.0             0.0   
+         {\ldots}        {\ldots}   {\ldots}   {\ldots}      {\ldots}   {\ldots}   {\ldots}             {\ldots}   
+         1148  291030.0  15.0  22.0 -0.29260   0.0   0.0             0.0   
+         1149  291460.0  16.0  22.0 -2.10380   1.0   0.0             0.0   
+         1150  292680.0  19.0  22.0 -0.81030   3.0   0.0             0.0   
+         1151  292790.0  20.0  22.0  2.13060   1.0   0.0             2.0   
+         1152  293130.0  21.0  22.0 -2.44290   1.0   0.0             1.0   
+         1153  293240.0  21.0  22.0 -0.94530   0.0   0.0            -2.0   
+         1154  293250.0  21.0  22.0  0.57330   0.0   0.0             1.0   
+         1155  294910.0  25.0  23.0  2.52950   4.0   1.0            -2.0   
+         1156  294910.0  25.0  23.0  2.52950   0.0   0.0            -2.0   
+         1157  295600.0  27.0  23.0 -0.70040   2.0   0.0             2.0   
+         1158  295910.0  27.0  23.0  1.71780   0.0   0.0             2.0   
+         1159  295910.0  27.0  23.0  1.71780   0.0   0.0             2.0   
+         1160  296030.0  28.0  23.0 -1.81610   1.0   0.0             2.0   
+         1161  296320.0  28.0  23.0 -0.80410   0.0   0.0             2.0   
+         1162  296320.0  28.0  23.0 -0.80410   0.0   0.0             2.0   
+         1163  296880.0  28.0  23.0  2.59130   0.0   0.0             2.0   
+         1164  297310.0  28.0  23.0 -0.02190   0.0   0.0             2.0   
+         1165  297440.0  28.0  23.0 -1.79540   0.0   0.0             2.0   
+         1166  297440.0  28.0  23.0 -1.79540   0.0   0.0             2.0   
+         1167  297440.0  28.0  23.0 -1.79540   0.0   0.0             2.0   
+         1168  297550.0  27.0  22.0 -0.56580  -1.0  -1.0             1.0   
+         1169  297590.0  27.0  22.0  2.03080   0.0   0.0             2.0   
+         1170  298040.0  27.0  21.0 -1.11180   0.0  -1.0             0.0   
+         1171  298410.0  27.0  20.0 -1.87080   0.0  -1.0             2.0   
+         1172  298420.0  27.0  20.0  1.98250   0.0   0.0             1.0   
+         1173  298420.0  27.0  20.0  1.98250   0.0   0.0             1.0   
+         1174  298420.0  27.0  20.0  1.98250   0.0   0.0             1.0   
+         1175  298520.0  26.0  20.0 -0.20210  -1.0   0.0            -1.0   
+         1176  298580.0  26.0  20.0  3.14000   0.0   0.0             0.0   
+         1177  298690.0  26.0  20.0  1.75330   0.0   0.0             2.0   
+         
+               Ydif Predicted  Actual Phase  
+         0               -2.0      2.191200  
+         1                0.0      2.191200  
+         2               -2.0      2.191200  
+         3                1.0      2.191200  
+         4               -2.0      2.191200  
+         5                2.0      2.191200  
+         6                2.0      2.191200  
+         7               -2.0           NaN  
+         8                2.0           NaN  
+         9               -2.0           NaN  
+         10               2.0           NaN  
+         11               1.0     -2.878500  
+         12              -2.0      0.606390  
+         13               1.0      0.041084  
+         14               2.0      0.659090  
+         15               0.0      0.659090  
+         16              -2.0      0.659090  
+         17              -2.0      0.659090  
+         18               1.0      0.659090  
+         19               2.0      0.340150  
+         20               2.0     -0.300230  
+         21               0.0     -0.300230  
+         22               0.0     -0.300230  
+         23              -1.0     -0.300230  
+         24              -1.0     -0.300230  
+         25               0.0     -0.300230  
+         26               0.0     -0.300230  
+         27              -1.0     -0.300230  
+         28              -2.0           NaN  
+         29              -2.0      0.968050  
+         {\ldots}              {\ldots}           {\ldots}  
+         1148             1.0     -2.403500  
+         1149            -2.0           NaN  
+         1150            -1.0           NaN  
+         1151             2.0      0.073315  
+         1152            -1.0           NaN  
+         1153             1.0      0.073315  
+         1154             2.0      0.073315  
+         1155            -1.0     -1.652700  
+         1156            -1.0     -1.652700  
+         1157            -2.0           NaN  
+         1158            -1.0           NaN  
+         1159            -1.0           NaN  
+         1160            -2.0           NaN  
+         1161            -2.0           NaN  
+         1162            -2.0           NaN  
+         1163            -2.0           NaN  
+         1164            -2.0           NaN  
+         1165            -2.0           NaN  
+         1166            -2.0           NaN  
+         1167            -2.0           NaN  
+         1168            -2.0           NaN  
+         1169             0.0           NaN  
+         1170            -2.0           NaN  
+         1171             2.0           NaN  
+         1172             0.0      2.800000  
+         1173             0.0      2.800000  
+         1174             0.0      2.800000  
+         1175            -2.0      0.041084  
+         1176             1.0      0.848700  
+         1177             0.0      0.848700  
+         
+         [1178 rows x 9 columns]
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}70}]:} \PY{n}{df\PYZus{}move} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Xdif}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{)} \PY{o}{|} \PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ydif}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{n}{subset}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Xdif}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+         \PY{n}{df\PYZus{}move}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}70}]:}           Time     X     Y     Phase  Xdif  Ydif  Xdif Predicted  \textbackslash{}
+         7       1495.0  17.0  20.0 -2.401950   1.0   1.0            -2.0   
+         8       1950.0  18.0  21.0 -1.625100   1.0   1.0            -2.0   
+         11      2473.0  19.0  21.0 -2.995360   1.0   0.0             0.0   
+         12      3432.0  21.0  20.0 -0.064400   2.0  -1.0             1.0   
+         13      4263.0  23.0  18.0 -2.976890   2.0  -2.0             2.0   
+         19      4896.0  24.0  17.0 -2.184990   1.0  -1.0             2.0   
+         29      7397.0  22.0  18.0 -2.496960  -1.0   1.0             0.0   
+         33      7736.0  22.0  19.0 -3.056368   0.0   1.0            -2.0   
+         37      8426.0  21.0  20.0 -0.050500   0.0   1.0             1.0   
+         43     10970.0  23.0  22.0 -0.874200   2.0   2.0             1.0   
+         44     11525.0  24.0  23.0 -0.465500   1.0   1.0             2.0   
+         46     12228.0  25.0  24.0 -3.059176   1.0   1.0             1.0   
+         47     12990.0  26.0  25.0 -3.007910   1.0   1.0             2.0   
+         48     13432.0  27.0  26.0  1.661400   1.0   1.0             0.0   
+         49     13866.0  27.0  27.0  3.081200   0.0   1.0             0.0   
+         50     14076.0  28.0  27.0  2.651700   1.0   0.0            -1.0   
+         51     14372.0  28.0  28.0 -0.001800   0.0   1.0            -2.0   
+         54     15105.0  29.0  29.0  1.588200   1.0   1.0             0.0   
+         55     15388.0  30.0  30.0 -0.804200   1.0   1.0             0.0   
+         56     15827.0  30.0  31.0  2.601100   0.0   1.0            -2.0   
+         58     16394.0  30.0  32.0  1.253500   0.0   1.0            -1.0   
+         59     16743.0  30.0  33.0 -0.650600   0.0   1.0             2.0   
+         111    30731.0  12.0  22.0  2.038300   3.0   0.0             1.0   
+         112    30872.0  13.0  22.0  1.862000   1.0   0.0             1.0   
+         113    31599.0  14.0  22.0  2.176600   1.0   0.0             1.0   
+         114    31790.0  15.0  22.0 -1.467100   1.0   0.0            -2.0   
+         116    32615.0  17.0  22.0  1.586200   2.0   0.0            -2.0   
+         118    32996.0  18.0  22.0  1.385500   1.0   0.0             2.0   
+         119    33581.0  19.0  23.0 -2.264720   1.0   1.0            -2.0   
+         121    34188.0  21.0  23.0  0.855700   2.0   0.0            -2.0   
+         {\ldots}        {\ldots}   {\ldots}   {\ldots}       {\ldots}   {\ldots}   {\ldots}             {\ldots}   
+         1024  262270.0  21.0  28.0  0.535800  -1.0   3.0             1.0   
+         1027  263290.0  20.0  30.0 -2.022500  -1.0   2.0             1.0   
+         1028  264040.0  20.0  32.0  1.528300   0.0   2.0             2.0   
+         1033  264860.0  19.0  34.0 -2.441880   0.0   2.0             0.0   
+         1037  266060.0  18.0  36.0  1.353900  -1.0   2.0             0.0   
+         1051  269500.0  19.0  32.0 -2.860160   1.0  -3.0             0.0   
+         1058  270510.0  20.0  30.0  2.282900   1.0  -1.0             2.0   
+         1061  271540.0  21.0  27.0  2.669700   1.0  -2.0            -1.0   
+         1079  274750.0  23.0  20.0 -2.263560   2.0  -5.0            -2.0   
+         1084  275270.0  24.0  19.0 -0.476600   1.0   0.0            -2.0   
+         1117  282320.0  14.0  13.0 -1.714000  -1.0   1.0            -2.0   
+         1118  283140.0  13.0  14.0 -2.918100  -1.0   1.0            -1.0   
+         1119  283660.0  12.0  15.0 -1.490700  -1.0   1.0            -1.0   
+         1120  284100.0  12.0  16.0 -1.420200   0.0   1.0             0.0   
+         1121  284340.0  11.0  17.0  0.399900  -1.0   1.0            -2.0   
+         1122  285180.0  10.0  18.0  2.117500  -1.0   1.0            -2.0   
+         1124  285760.0   9.0  20.0  1.716300  -1.0   2.0            -2.0   
+         1129  286440.0   9.0  21.0  3.083700   0.0   1.0             0.0   
+         1139  289180.0  11.0  21.0  0.156000   2.0   0.0            -2.0   
+         1142  289540.0  12.0  21.0 -1.010900   1.0   0.0            -2.0   
+         1143  290310.0  14.0  21.0  2.794600   2.0   0.0             2.0   
+         1145  290530.0  14.0  22.0 -0.425100   0.0   1.0             0.0   
+         1147  290920.0  15.0  22.0 -0.254800   1.0   0.0             0.0   
+         1149  291460.0  16.0  22.0 -2.103800   1.0   0.0             0.0   
+         1150  292680.0  19.0  22.0 -0.810300   3.0   0.0             0.0   
+         1151  292790.0  20.0  22.0  2.130600   1.0   0.0             2.0   
+         1152  293130.0  21.0  22.0 -2.442900   1.0   0.0             1.0   
+         1155  294910.0  25.0  23.0  2.529500   4.0   1.0            -2.0   
+         1157  295600.0  27.0  23.0 -0.700400   2.0   0.0             2.0   
+         1160  296030.0  28.0  23.0 -1.816100   1.0   0.0             2.0   
+         
+               Ydif Predicted  Actual Phase  
+         7               -2.0           NaN  
+         8                2.0           NaN  
+         11               1.0     -2.878500  
+         12              -2.0      0.606390  
+         13               1.0      0.041084  
+         19               2.0      0.340150  
+         29              -2.0      0.968050  
+         33              -2.0      1.019800  
+         37              -2.0           NaN  
+         43               2.0      0.041084  
+         44               0.0     -1.398100  
+         46               0.0           NaN  
+         47              -1.0           NaN  
+         48              -2.0           NaN  
+         49              -1.0           NaN  
+         50              -2.0           NaN  
+         51               1.0           NaN  
+         54              -2.0           NaN  
+         55               0.0           NaN  
+         56              -1.0     -0.517760  
+         58              -1.0     -0.159860  
+         59               0.0           NaN  
+         111              0.0           NaN  
+         112             -1.0     -2.295200  
+         113             -2.0     -2.403500  
+         114             -1.0     -0.360670  
+         116             -2.0           NaN  
+         118             -1.0           NaN  
+         119             -1.0           NaN  
+         121              2.0     -0.065840  
+         {\ldots}              {\ldots}           {\ldots}  
+         1024             2.0           NaN  
+         1027             1.0      2.731100  
+         1028             2.0           NaN  
+         1033             0.0           NaN  
+         1037             0.0           NaN  
+         1051             0.0           NaN  
+         1058            -1.0           NaN  
+         1061            -2.0     -2.581700  
+         1079             2.0           NaN  
+         1084             0.0      1.020600  
+         1117             0.0           NaN  
+         1118             1.0           NaN  
+         1119             2.0           NaN  
+         1120             2.0           NaN  
+         1121            -2.0           NaN  
+         1122            -2.0           NaN  
+         1124            -2.0     -1.388800  
+         1129             2.0     -2.530700  
+         1139            -1.0      3.004100  
+         1142            -2.0      3.004100  
+         1143             0.0      0.286600  
+         1145             2.0      2.412200  
+         1147             1.0     -0.360670  
+         1149            -2.0           NaN  
+         1150            -1.0           NaN  
+         1151             2.0      0.073315  
+         1152            -1.0           NaN  
+         1155            -1.0     -1.652700  
+         1157            -2.0           NaN  
+         1160            -2.0           NaN  
+         
+         [300 rows x 9 columns]
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}72}]:} \PY{n}{df\PYZus{}move}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{p}{(}\PY{n}{df\PYZus{}move}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Xdif}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{==}\PY{n}{df\PYZus{}move}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Xdif Predicted}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)} \PY{o}{|} \PY{p}{(}\PY{n}{df\PYZus{}move}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ydif}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{==}\PY{n}{df\PYZus{}move}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ydif Predicted}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{n}{subset}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Xdif}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}72}]:}           Time     X     Y     Phase  Xdif  Ydif  Xdif Predicted  \textbackslash{}
+         13      4263.0  23.0  18.0 -2.976890   2.0  -2.0             2.0   
+         43     10970.0  23.0  22.0 -0.874200   2.0   2.0             1.0   
+         46     12228.0  25.0  24.0 -3.059176   1.0   1.0             1.0   
+         49     13866.0  27.0  27.0  3.081200   0.0   1.0             0.0   
+         51     14372.0  28.0  28.0 -0.001800   0.0   1.0            -2.0   
+         111    30731.0  12.0  22.0  2.038300   3.0   0.0             1.0   
+         112    30872.0  13.0  22.0  1.862000   1.0   0.0             1.0   
+         113    31599.0  14.0  22.0  2.176600   1.0   0.0             1.0   
+         125    34974.0  23.0  23.0 -1.346000   1.0   0.0             1.0   
+         140    37785.0  30.0  24.0  2.873400   1.0   0.0             0.0   
+         142    38943.0  33.0  24.0 -1.149500   3.0   0.0             0.0   
+         146    39385.0  34.0  24.0  0.007900   1.0   0.0             0.0   
+         147    39513.0  34.0  25.0  1.973100   0.0   1.0             0.0   
+         148    40075.0  35.0  25.0 -1.722600   1.0   0.0             0.0   
+         155    41516.0  37.0  28.0  1.253600   0.0   1.0             0.0   
+         255    64223.0   4.0   3.0  1.466600   1.0   1.0             0.0   
+         259    64967.0   5.0   4.0 -1.122100   1.0   1.0             1.0   
+         270    67137.0   9.0   7.0  1.221400   0.0   1.0             0.0   
+         287    72510.0  21.0  14.0 -2.487960   2.0   1.0             2.0   
+         293    73621.0  23.0  16.0  2.453200   1.0   1.0             1.0   
+         304    76170.0  25.0  20.0  1.184000   0.0   1.0             2.0   
+         320    80477.0  29.0  30.0  3.087000   1.0   1.0             1.0   
+         323    81587.0  29.0  32.0 -3.081056   0.0   1.0            -2.0   
+         324    81932.0  30.0  33.0  0.427000   1.0   1.0             1.0   
+         325    82418.0  30.0  34.0 -2.815590   0.0   1.0             0.0   
+         328    82852.0  31.0  35.0 -1.716800   1.0   0.0             1.0   
+         333    84760.0  34.0  34.0  1.065500   1.0  -2.0             2.0   
+         394    97824.0  27.0  14.0 -0.401500   3.0  -2.0            -2.0   
+         413   102260.0  36.0   7.0  2.397800   1.0   0.0             0.0   
+         416   103010.0  37.0   6.0  2.336400   1.0   0.0             0.0   
+         {\ldots}        {\ldots}   {\ldots}   {\ldots}       {\ldots}   {\ldots}   {\ldots}             {\ldots}   
+         890   221700.0  39.0   3.0 -2.892360   1.0   0.0             0.0   
+         891   222170.0  40.0   3.0 -1.046000   1.0   0.0             0.0   
+         893   222580.0  41.0   3.0 -0.305600   1.0   0.0             0.0   
+         896   225480.0  38.0   8.0  3.102800   0.0   1.0             0.0   
+         904   229220.0  29.0  12.0  2.206600  -2.0   1.0             2.0   
+         908   230180.0  27.0  13.0 -2.112800  -1.0   1.0            -1.0   
+         919   232460.0  22.0  15.0 -0.826900  -1.0   1.0            -1.0   
+         924   233640.0  19.0  16.0 -0.410000  -2.0   1.0             0.0   
+         931   235610.0  15.0  19.0  0.438000  -1.0   1.0            -2.0   
+         937   237540.0  11.0  21.0  2.480600  -1.0   1.0             0.0   
+         940   238300.0   9.0  22.0 -2.985000  -1.0   1.0             2.0   
+         953   242350.0  12.0  23.0  0.775400   1.0   0.0             2.0   
+         959   243530.0  15.0  24.0 -0.442100   1.0   1.0             2.0   
+         966   244700.0  17.0  24.0 -2.457810   2.0   0.0             2.0   
+         978   247680.0  25.0  25.0 -2.726290   1.0   0.0             2.0   
+         980   248090.0  26.0  25.0 -0.921600   1.0   0.0             1.0   
+         1017  258990.0  24.0  20.0 -0.877200   0.0   1.0            -1.0   
+         1028  264040.0  20.0  32.0  1.528300   0.0   2.0             2.0   
+         1033  264860.0  19.0  34.0 -2.441880   0.0   2.0             0.0   
+         1058  270510.0  20.0  30.0  2.282900   1.0  -1.0             2.0   
+         1061  271540.0  21.0  27.0  2.669700   1.0  -2.0            -1.0   
+         1084  275270.0  24.0  19.0 -0.476600   1.0   0.0            -2.0   
+         1118  283140.0  13.0  14.0 -2.918100  -1.0   1.0            -1.0   
+         1119  283660.0  12.0  15.0 -1.490700  -1.0   1.0            -1.0   
+         1120  284100.0  12.0  16.0 -1.420200   0.0   1.0             0.0   
+         1129  286440.0   9.0  21.0  3.083700   0.0   1.0             0.0   
+         1143  290310.0  14.0  21.0  2.794600   2.0   0.0             2.0   
+         1145  290530.0  14.0  22.0 -0.425100   0.0   1.0             0.0   
+         1152  293130.0  21.0  22.0 -2.442900   1.0   0.0             1.0   
+         1157  295600.0  27.0  23.0 -0.700400   2.0   0.0             2.0   
+         
+               Ydif Predicted  Actual Phase  
+         13               1.0      0.041084  
+         43               2.0      0.041084  
+         46               0.0           NaN  
+         49              -1.0           NaN  
+         51               1.0           NaN  
+         111              0.0           NaN  
+         112             -1.0     -2.295200  
+         113             -2.0     -2.403500  
+         125              2.0     -1.177500  
+         140              0.0           NaN  
+         142              0.0           NaN  
+         146              0.0           NaN  
+         147              0.0           NaN  
+         148              0.0           NaN  
+         155              0.0           NaN  
+         255              1.0     -1.576300  
+         259              0.0           NaN  
+         270              0.0           NaN  
+         287             -2.0           NaN  
+         293              1.0      2.637500  
+         304              1.0      1.020600  
+         320             -2.0           NaN  
+         323              1.0           NaN  
+         324             -2.0           NaN  
+         325              0.0           NaN  
+         328             -1.0           NaN  
+         333             -2.0           NaN  
+         394             -2.0     -1.997000  
+         413              0.0           NaN  
+         416              0.0           NaN  
+         {\ldots}              {\ldots}           {\ldots}  
+         890              0.0           NaN  
+         891              0.0           NaN  
+         893              0.0           NaN  
+         896              0.0           NaN  
+         904              1.0           NaN  
+         908             -1.0           NaN  
+         919              2.0      0.508100  
+         924              1.0     -1.640400  
+         931              1.0      2.483500  
+         937              1.0     -2.737400  
+         940              1.0     -0.230530  
+         953              0.0     -2.120200  
+         959              1.0     -1.219200  
+         966             -2.0           NaN  
+         978              0.0           NaN  
+         980             -2.0           NaN  
+         1017             1.0           NaN  
+         1028             2.0           NaN  
+         1033             0.0           NaN  
+         1058            -1.0           NaN  
+         1061            -2.0     -2.581700  
+         1084             0.0      1.020600  
+         1118             1.0           NaN  
+         1119             2.0           NaN  
+         1120             2.0           NaN  
+         1129             2.0     -2.530700  
+         1143             0.0      0.286600  
+         1145             2.0      2.412200  
+         1152            -1.0           NaN  
+         1157            -2.0           NaN  
+         
+         [95 rows x 9 columns]
+\end{Verbatim}
+            
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
