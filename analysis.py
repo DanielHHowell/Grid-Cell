@@ -4,13 +4,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.stats import pearsonr
+from astropy.stats import circcorrcoef
+import astropy.units as u
 
 class gridCells:
 
-    def __init__(self,dir,move_thresh):
+    def __init__(self, dir, move_thresh, type):
         assert dir is not None
         self.dir = dir
         self.move_thresh = move_thresh
+        self.type = type
 
     def mean_phase_map(self, arr, bin_size):
         mpm_dict = {}
@@ -56,8 +59,12 @@ class gridCells:
             nearest = np.nanargmin(np.abs(phases - phase))
         except:
             nearest = 0
+
         try:
-            return [spikes[nearest][0] - spikes[0, 0], spikes[nearest][1] - spikes[0, 1]]
+            x = round(spikes[nearest][0])
+            y = round(spikes[nearest][1])
+            return [x - spikes[0, 0], y - spikes[0, 1]]
+
         except:
             return [0.0, 0.0]
 
@@ -117,14 +124,14 @@ class gridCells:
         self.XYspkT = np.loadtxt(self.dir + 'XYspkT.csv', delimiter=',')
 
         # Normalizes position data to [0,0] alignment in bottom-left corner
-        self.XYspkT[:, 1] -= self.XYspkT[:, 1].min()
-        self.XYspkT[:, 0] -= self.XYspkT[:, 0].min()
-        self.scaled_XY = self.XYspkT / 2
+        self.XYspkT[:,1] -= self.XYspkT[:,1].min()
+        self.XYspkT[:,0] -= self.XYspkT[:,0].min()
+        self.scaled_XY = self.XYspkT/2
 
         # Load precise trajectory
         self.xyPos = np.loadtxt(self.dir + 'xyPos.csv', delimiter=',')[::25]
-        self.xyPos[:, 1] -= self.xyPos[:, 1].min()
-        self.xyPos[:, 0] -= self.xyPos[:, 0].min()
+        self.xyPos[:,1] -= self.xyPos[:,1].min()
+        self.xyPos[:,0] -= self.xyPos[:,0].min()
 
         # Load spike times
         self.spkT = np.loadtxt(self.dir + 'spkT.csv', delimiter=',')
@@ -167,13 +174,16 @@ class gridCells:
         combined = np.column_stack((movement[:, :4], next_phase, xdif, ydif))
 
         # 6) Generate predictions
-        predicted = [self.nearest_phase(self.adjacent_matrix([i[1], i[2]]), i[4]) for i in combined]
-        predicted_movement = np.asarray(predicted)
+
+        #Spatial Analysis
+        if self.type == 'spatial':
+            predicted = [self.nearest_phase(self.adjacent_matrix([i[1], i[2]]), i[4]) for i in combined]
+            predicted_movement = np.asarray(predicted)
 
         # Temporal Analysis
-        # elif spatial == False:
-        #     predicted = [adjacent_spikes(combined[i:i+6,1:3],combined[i,4]) for i in range(len(combined))]
-        #     predicted_movement = np.asarray(predicted)
+        elif self.type == 'temporal':
+             predicted = [self.adjacent_spikes(combined[i:i + 6, 1:3], combined[i, 4]) for i in range(len(combined))]
+             predicted_movement = np.asarray(predicted)
 
         # 7) Load all data into dataframe
         all = np.column_stack((combined, predicted_movement))
@@ -183,8 +193,11 @@ class gridCells:
         self.angles = np.asarray(self.abs_vector_angles(all))
         self.angles = self.angles[~np.all(self.angles == 0, axis=1)]
 
-        # Generate observed/predicted correlation coefficient
-        r,p = pearsonr(self.angles[:,0],self.angles[:,1])
+        # Generate observed/predicted circular correlation coefficient
+        # Specify astropy degree units
+        alpha = self.angles[:,0]*u.deg
+        beta = self.angles[:,1]*u.deg
+        r = circcorrcoef(alpha, beta)
         return r
 
 # class figureGenerator:
@@ -195,6 +208,7 @@ class gridCells:
     def XY_plot(self):
 
         plt.plot(self.scaled_XY[:, 0], self.scaled_XY[:, 1], '.')
+        plt.show()
 
     def phase_plot(self):
 
@@ -224,11 +238,13 @@ class gridCells:
 
         # To-do: reflect radians in bar
         plt.colorbar()
+        plt.show()
 
     def trajectory_plot(self):
 
         plt.plot(self.xyPos[:,0], self.xyPos[:,1], color='b')
         plt.plot(self.XYspkT[:,0], self.XYspkT[:,1], '.', color='r', markersize=6)
+        plt.show()
 
     def prediction_plot(self):
 
@@ -244,21 +260,32 @@ class gridCells:
     def corr_plot(self):
 
         corr_df = pd.DataFrame(data=self.angles, columns=['Observed', 'Predicted'])
-        sns.jointplot(x='Observed', y='Predicted', data=corr_df, kind='kde')
+        sns.jointplot(x='Observed Heading Direction', y='Predicted Heading Direction', data=corr_df, kind='kde')
+        plt.ylim(0, None)
+        plt.xlim(0.1, None)
+        plt.show()
 
     def corr_hex(self):
 
         corr_df = pd.DataFrame(data=self.angles, columns=['Observed', 'Predicted'])
-        sns.jointplot(x='Observed', y='Predicted', data=corr_df, kind='hex')
+        sns.jointplot(x='Observed Heading Direction', y='Predicted Heading Direction', data=corr_df, kind='hex')
         plt.show()
-    def correlation_plot(self):
 
-        corr_df = pd.DataFrame(data=self.angles, columns=['Observed', 'Predicted'])
-        sns.jointplot(x='Observed', y='Predicted', data=corr_df, kind='kde')
+    def corr_heatmap(self):
+
+        heatmap, xedges, yedges = np.histogram2d(self.angles[:, 0], self.angles[:, 1], bins=40)
+        extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
+
+        plt.clf()
+        plt.imshow(heatmap.T, extent=extent, origin='lower', cmap='afmhot')
+        plt.colorbar()
+        plt.ylabel('Predicted Heading Direction')
+        plt.xlabel('Observed Heading Direction')
+        plt.show()
 
 # Tests:
-# a = gridCells('datasets/1/',0.25)
+# a = gridCells('datasets/1/',0.5,'temporal')
 # a.phase_analysis()
-# a.phase_plot()
+# a.prediction_plot()
 
 
