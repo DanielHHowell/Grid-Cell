@@ -28,23 +28,26 @@ class gridCells:
                 mpm_dict[ybin][xbin] = np.nanmean(np.asarray(phases))
         return mpm_dict
 
-    def adjacent_matrix(self, cell):
+    def adjacent_matrix(self, cell, phase):
+        """Determines change vector from central cell to cell
+        nearest in value in 5x5 IN FORM **[X,Y]** """        
         x = int(cell[0])
         y = int(cell[1])
-        y_size = self.arena_size[0] - 1
-        matrix = self.padded_phase_df.iloc[y_size - y:y_size - y + 5, x:x + 5]
-        return matrix
+        y_size = self.arena_size[0]-1
+        a = self.padded_phase_df.iloc[y_size-y:y_size-y+5,x:x+5]
 
-    def nearest_phase(self, array, phase):
-        """Determines change vector from central cell to cell
-        nearest in value in 7x7 IN FORM **[X,Y]**"""
         try:
-            nearest = np.nanargmin(np.abs(array - phase))
-            # loc = [(am%7)-3,3-(am//7)]
-            loc = [(nearest % 5) - 2, 2 - (nearest // 5)]
-            return loc
+            nearest = np.nanargmin(np.abs(a-phase))
+            loc = [(nearest%5)-2,2-(nearest//5)]
+
+            #Rounding down to the nearest bin, adding 0.5 to point to center of bin        
+            xp = x+loc[0]+0.5
+            yp = y+loc[1]+0.5    
+            return[xp - cell[0],yp - cell[1]]
+
         except:
-            return [0, 0]
+            return [0,0]    
+
 
     def adjacent_spikes(self, spikes, phase):
         """Get location of spike with most similar phase"""
@@ -61,8 +64,9 @@ class gridCells:
             nearest = 0
 
         try:
-            x = round(spikes[nearest][0])
-            y = round(spikes[nearest][1])
+            #Rounding down to the nearest bin, adding 0.5 to point to center of bin
+            x = int(spikes[nearest][0])+0.5
+            y = int(spikes[nearest][1])+0.5
             return [x - spikes[0, 0], y - spikes[0, 1]]
 
         except:
@@ -177,7 +181,7 @@ class gridCells:
 
         #Spatial Analysis
         if self.type == 'spatial':
-            predicted = [self.nearest_phase(self.adjacent_matrix([i[1], i[2]]), i[4]) for i in combined]
+            predicted = [self.adjacent_matrix([i[1], i[2]], i[4]) for i in combined]
             predicted_movement = np.asarray(predicted)
 
         # Temporal Analysis
@@ -186,18 +190,20 @@ class gridCells:
              predicted_movement = np.asarray(predicted)
 
         # 7) Load all data into dataframe
-        all = np.column_stack((combined, predicted_movement))
-        self.df = pd.DataFrame(data=all, columns=['Time', 'X', 'Y', 'Phase', 'Next Phase', 'Xdif', 'Ydif', 'Xdif Predicted',
-                                             'Ydif Predicted'])
+        self.all = np.column_stack((combined, predicted_movement))
+        self.df = pd.DataFrame(data=self.all, columns=['Time', 'X', 'Y', 'Phase', 'Next Phase', 'Xdif', 'Ydif', 'Xdif Predicted', 'Ydif Predicted'])
 
-        self.angles = np.asarray(self.abs_vector_angles(all))
+        self.angles = np.asarray(self.abs_vector_angles(self.all))
         self.angles = self.angles[~np.all(self.angles == 0, axis=1)]
 
         # Generate observed/predicted circular correlation coefficient
         # Specify astropy degree units
-        alpha = self.angles[:,0]*u.deg
-        beta = self.angles[:,1]*u.deg
-        r = circcorrcoef(alpha, beta)
+        #alpha = self.angles[:,0]*u.deg
+        #beta = self.angles[:,1]*u.deg
+        #r = circcorrcoef(alpha, beta)
+        
+        r,p = pearsonr(self.angles[:,0],self.angles[:,1])
+        
         return r
 
 # class figureGenerator:
@@ -249,17 +255,22 @@ class gridCells:
     def prediction_plot(self):
 
         plt.rcParams['figure.figsize'] = [20, 15]
+        ax = plt.subplot()
         plt.plot(self.xyPos[:,0]/2, self.xyPos[:,1]/2, color='b')
         plt.plot(self.scaled_XY[:,0], self.scaled_XY[:,1], '.', color='r', markersize=6)
         for index, row in self.df.iterrows():
             # if (row['Xdif Predicted']>0) or (row['Ydif Predicted']>0):
             plt.arrow(row['X'], row['Y'], row['Xdif Predicted'], row['Ydif Predicted'],
-                      head_width=0.2, color='black')
+                        head_width=0.2, color='black')
+
+        ax.set_xticks(np.arange(self.scaled_XY[:,0].min()-1,self.scaled_XY[:,0].max()+2))
+        ax.set_yticks(np.arange(self.scaled_XY[:,1].min()-1,self.scaled_XY[:,1].max()+1))
+        ax.grid()
         plt.show()
 
     def corr_plot(self):
 
-        corr_df = pd.DataFrame(data=self.angles, columns=['Observed', 'Predicted'])
+        corr_df = pd.DataFrame(data=self.angles, columns=['Observed Heading Direction', 'Predicted Heading Direction'])
         sns.jointplot(x='Observed Heading Direction', y='Predicted Heading Direction', data=corr_df, kind='kde')
         plt.ylim(0, None)
         plt.xlim(0.1, None)
@@ -267,7 +278,7 @@ class gridCells:
 
     def corr_hex(self):
 
-        corr_df = pd.DataFrame(data=self.angles, columns=['Observed', 'Predicted'])
+        corr_df = pd.DataFrame(data=self.angles, columns=['Observed Heading Direction', 'Predicted Heading Direction'])
         sns.jointplot(x='Observed Heading Direction', y='Predicted Heading Direction', data=corr_df, kind='hex')
         plt.show()
 
