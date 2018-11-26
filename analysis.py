@@ -196,8 +196,7 @@ class gridCells:
         self.df = pd.DataFrame(data=self.all, columns=['Time', 'X', 'Y', 'Phase', 'Next Phase', 'Xdif', 'Ydif', 'Xdif Predicted', 'Ydif Predicted'])
 
         self.angles = np.asarray(self.abs_vector_angles(self.all))
-        self.angles = self.angles[~np.all(self.angles == 0, axis=1)]
-
+        
         # Generate observed/predicted circular correlation coefficient
         # Specify astropy degree units
         #alpha = self.angles[:,0]*u.deg
