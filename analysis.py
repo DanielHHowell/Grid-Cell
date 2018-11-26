@@ -9,11 +9,12 @@ import astropy.units as u
 
 class gridCells:
 
-    def __init__(self, dir, move_thresh, type):
+    def __init__(self, dir, type):
         assert dir is not None
+        
         self.dir = dir
-        self.move_thresh = move_thresh
         self.type = type
+        self.move_thresh = 0.01
 
     def mean_phase_map(self, arr, bin_size):
         mpm_dict = {}
@@ -74,6 +75,7 @@ class gridCells:
 
     @staticmethod
     def vector_angles(df):
+        """Basic formula for determining angle between vectors"""
 
         angles = []
         for index, row in df.iterrows():
@@ -212,12 +214,13 @@ class gridCells:
 #         pass
 
     def XY_plot(self):
+        """Plot of scaled spike positions"""
 
         plt.plot(self.scaled_XY[:, 0], self.scaled_XY[:, 1], '.')
         plt.show()
 
     def phase_plot(self):
-
+        """Generates a radial distribution of all spike phases"""
         phase_degrees = np.degrees(self.phase)
         sorted_phase = np.sort(phase_degrees)
 
@@ -239,7 +242,7 @@ class gridCells:
         plt.show()
 
     def phase_map_plot(self):
-
+        """Generates a heatmap of the iso phase map"""
         plt.matshow(self.phase_df)
 
         # To-do: reflect radians in bar
@@ -247,13 +250,13 @@ class gridCells:
         plt.show()
 
     def trajectory_plot(self):
-
+        """Generates a plot of the complete trajectory data"""
         plt.plot(self.xyPos[:,0], self.xyPos[:,1], color='b')
         plt.plot(self.XYspkT[:,0], self.XYspkT[:,1], '.', color='r', markersize=6)
         plt.show()
 
     def prediction_plot(self):
-
+        """Generates a plot with trajectory, spike positions, and prediction vectors"""
         plt.rcParams['figure.figsize'] = [20, 15]
         ax = plt.subplot()
         plt.plot(self.xyPos[:,0]/2, self.xyPos[:,1]/2, color='b')
@@ -269,7 +272,7 @@ class gridCells:
         plt.show()
 
     def corr_plot(self):
-
+        """Generates simple bivariate distribution for correlation"""
         corr_df = pd.DataFrame(data=self.angles, columns=['Observed Heading Direction', 'Predicted Heading Direction'])
         sns.jointplot(x='Observed Heading Direction', y='Predicted Heading Direction', data=corr_df, kind='kde')
         plt.ylim(0, None)
@@ -277,13 +280,13 @@ class gridCells:
         plt.show()
 
     def corr_hex(self):
-
+        """Generates simple bivariate distribution for correlation (hex form)"""
         corr_df = pd.DataFrame(data=self.angles, columns=['Observed Heading Direction', 'Predicted Heading Direction'])
         sns.jointplot(x='Observed Heading Direction', y='Predicted Heading Direction', data=corr_df, kind='hex')
         plt.show()
 
     def corr_heatmap(self):
-
+        """Generates correlation heatmap"""
         heatmap, xedges, yedges = np.histogram2d(self.angles[:, 0], self.angles[:, 1], bins=40)
         extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
 
