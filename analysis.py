@@ -6,6 +6,7 @@ import seaborn as sns
 from scipy.stats import pearsonr
 from astropy.stats import circcorrcoef
 import astropy.units as u
+import pycircstat
 
 class gridCells:
 
@@ -205,7 +206,9 @@ class gridCells:
         
         r,p = pearsonr(self.angles[:,0],self.angles[:,1])
         
-        return r
+        print('Linear r correlation : ' + str(r))
+        print('Circular r correlation (1): ' + str(circcorrcoef(self.angles[:,0]*u.deg,self.angles[:,1]*u.deg)))
+        print('Circular r correlation (2): ' + str(pycircstat.corrcc(self.angles[:,0],self.angles[:,1])))
 
 # class figureGenerator:
 #
