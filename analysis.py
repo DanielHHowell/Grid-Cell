@@ -18,6 +18,7 @@ class gridCells:
         self.move_thresh = 0.01
 
     def mean_phase_map(self, arr, bin_size):
+        """Bins data in a 2x2 matrix to the average phase"""
         mpm_dict = {}
         for ybin in range(0, int(arr[:, 1].max() + 1), bin_size):
             mpm_dict[ybin] = {}
@@ -32,7 +33,7 @@ class gridCells:
 
     def adjacent_matrix(self, cell, phase):
         """Determines change vector from central cell to cell
-        nearest in value in 5x5 IN FORM **[X,Y]** """        
+        nearest in value in 5x5 IN FORM **[X,Y]** for the spatial analysis"""        
         x = int(cell[0])
         y = int(cell[1])
         y_size = self.arena_size[0]-1
@@ -52,7 +53,8 @@ class gridCells:
 
 
     def adjacent_spikes(self, spikes, phase):
-        """Get location of spike with most similar phase"""
+        """Get location of spike with most similar phase
+        for the temporal analysis"""
         y_size = self.arena_size[0] - 1
         phases = []
         for i in spikes:
@@ -159,7 +161,8 @@ class gridCells:
         padded_phase_map = np.pad(self.phase_df, pad_width=2, mode='constant', constant_values=np.nan)
         self.padded_phase_df = pd.DataFrame(data=padded_phase_map)
 
-        # Main analysis
+        
+        # Main analysis!
         # 1) Combine all data and sort by spike times
         unsorted = np.column_stack((self.spkT, self.scaled_XY, self.scaled_phase))
         sorted = unsorted[unsorted[:, 0].argsort()]
@@ -207,8 +210,8 @@ class gridCells:
         r,p = pearsonr(self.angles[:,0],self.angles[:,1])
         
         print('Linear r correlation : ' + str(r))
-        print('Circular r correlation (1): ' + str(circcorrcoef(self.angles[:,0]*u.deg,self.angles[:,1]*u.deg)))
-        print('Circular r correlation (2): ' + str(pycircstat.corrcc(self.angles[:,0],self.angles[:,1])))
+        print('Circular r correlation (1): ' + str(circcorrcoef(np.radians(self.angles[:,0])*u.radian,np.radians(self.angles[:,1])*u.radian)))
+        print('Circular r correlation (2): ' + str(pycircstat.corrcc(np.radians(self.angles[:,0]),np.radians(self.angles[:,1]))))
 
 # class figureGenerator:
 #
