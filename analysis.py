@@ -16,6 +16,7 @@ class gridCells:
         self.dir = dir
         self.type = type
         self.move_thresh = 0.01
+        self.diff = 6
 
     def mean_phase_map(self, arr, bin_size):
         """Bins data in a 2x2 matrix to the average phase"""
@@ -192,7 +193,7 @@ class gridCells:
 
         # Temporal Analysis
         elif self.type == 'temporal':
-             predicted = [self.adjacent_spikes(combined[i:i + 6, 1:3], combined[i, 4]) for i in range(len(combined))]
+             predicted = [self.adjacent_spikes(combined[i:i + self.diff, 1:3], combined[i, 4]) for i in range(len(combined))]
              predicted_movement = np.asarray(predicted)
 
         # 7) Load all data into dataframe
@@ -202,16 +203,12 @@ class gridCells:
         self.angles = np.asarray(self.abs_vector_angles(self.all))
         
         # Generate observed/predicted circular correlation coefficient
-        # Specify astropy degree units
-        #alpha = self.angles[:,0]*u.deg
-        #beta = self.angles[:,1]*u.deg
-        #r = circcorrcoef(alpha, beta)
         
         r,p = pearsonr(self.angles[:,0],self.angles[:,1])
+        return r
         
-        print('Linear r correlation : ' + str(r))
-        print('Circular r correlation (1): ' + str(circcorrcoef(np.radians(self.angles[:,0])*u.radian,np.radians(self.angles[:,1])*u.radian)))
-        print('Circular r correlation (2): ' + str(pycircstat.corrcc(np.radians(self.angles[:,0]),np.radians(self.angles[:,1]))))
+        print('Linear r correlation : ' + str(pearsonr(angles[:,0],angles[:,1])[0]))
+        print('Circular r correlation: ' + str(pycircstat.corrcc(np.radians(angles[:,0]),np.radians(angles[:,1]))))
 
 # class figureGenerator:
 #
@@ -292,7 +289,7 @@ class gridCells:
 
     def corr_heatmap(self):
         """Generates correlation heatmap"""
-        heatmap, xedges, yedges = np.histogram2d(self.angles[:, 0], self.angles[:, 1], bins=40)
+        heatmap, xedges, yedges = np.histogram2d(self.angles[:, 0], self.angles[:, 1], bins=30)
         extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
 
         plt.clf()
