@@ -31,6 +31,21 @@ class gridCells:
                         phases.append(spike[2])
                 mpm_dict[ybin][xbin] = np.nanmean(np.asarray(phases))
         return mpm_dict
+    
+    def mean_var_map(self, arr, bin_size):
+        """Bins data in a 2x2 matrix to the phase variance"""
+        vm_dict = {}
+        for ybin in range(0,int(arr[:,1].max()+1),bin_size):
+            vm_dict[ybin] = {}
+            for xbin in range(0,int(arr[:,0].max()+1),bin_size):
+                phases = []
+                vm_dict[ybin][xbin] = []
+                for spike in arr:
+                    if (xbin <= spike[0] <= xbin+bin_size) and (ybin <= spike[1] <= ybin+bin_size):
+                        phases.append(spike[2])      
+                vm_dict[ybin][xbin] = pycircstat.var(np.asarray(phases))
+
+        return vm_dict
 
     def adjacent_matrix(self, cell, phase):
         """Determines change vector from central cell to cell
@@ -161,6 +176,14 @@ class gridCells:
         # A padded phase map for extracting the 5x5 adjacency matrix (needed for edge values)
         padded_phase_map = np.pad(self.phase_df, pad_width=2, mode='constant', constant_values=np.nan)
         self.padded_phase_df = pd.DataFrame(data=padded_phase_map)
+        
+        # Generate phase variance map
+        vm_arr = np.column_stack((self.XYspkT,self.scaled_phase))
+        vm_dict = self.mean_var_map(vm_arr,2)
+
+        # Rotate the dataframe 90 CCW
+        vm = pd.DataFrame.from_dict(vm_dict).T
+        self.var_df = vm.reindex(index=vm.index[::-1])
 
         
         # Main analysis!
