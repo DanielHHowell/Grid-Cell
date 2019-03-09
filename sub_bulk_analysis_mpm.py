@@ -11,18 +11,17 @@ import pycircstat
 
 class gridCells:
 
-    def __init__(self, XYspkT, xyPos, phase, spkT, type, control):
+    def __init__(self, XYspkT, phase, spkT, type, control):
         assert dir is not None
 
         self.XYspkT = XYspkT
-        self.xyPos = xyPos
+        #self.xyPos = xyPos
         self.phase = phase
         self.spkT = spkT
         self.type = type
         self.control = control
 
         self.move_thresh = 0.01
-        self.diff = 6
 
     def mean_phase_map(self, arr, bin_size):
         
@@ -189,10 +188,14 @@ class gridCells:
         self.XYspkT[:, 1] -= self.XYspkT[:, 1].min()
         self.XYspkT[:, 0] -= self.XYspkT[:, 0].min()
         self.scaled_XY = self.XYspkT / 2
+        
+        self.diff = int(self.XYspkT.shape[0]/200)
+        if self.diff < 6:
+            self.diff = 6
 
         # Load precise trajectory
-        self.xyPos[:, 1] -= self.xyPos[:, 1].min()
-        self.xyPos[:, 0] -= self.xyPos[:, 0].min()
+        #self.xyPos[:, 1] -= self.xyPos[:, 1].min()
+        #self.xyPos[:, 0] -= self.xyPos[:, 0].min()
 
         # Load phase data
         if self.control == True:
