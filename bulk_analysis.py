@@ -187,6 +187,8 @@ class gridCells:
         """Loads and normalizes data, generates predictions based on
         mean phase map and saves everything in a dataframe"""
         
+        self.allspikes = self.allspikes[self.allspikes[:, 0].argsort()]
+        
         #Separate all spike data into variables
         #Splitting all spike-rows to divide the set 50% for the analysis and 50% for the mean phase map generation
         evens = self.allspikes[::2, :]
