@@ -203,7 +203,7 @@ class gridCells:
         self.XYspkT[:, 0] -= self.XYspkT[:, 0].min()
         self.scaled_XY = self.XYspkT / 2
         
-        self.diff = int(self.XYspkT.shape[0]/200)
+        self.diff = int(self.XYspkT.shape[0]/100)
         if self.diff < 6:
             self.diff = 6
 
