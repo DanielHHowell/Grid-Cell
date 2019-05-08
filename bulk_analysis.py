@@ -59,9 +59,9 @@ class gridCells:
     def mean_var_map(self, arr, bin_size):
         """Bins data in a 2x2 matrix to the phase variance"""
         vm_dict = {}
-        for ybin in range(0, int(arr[:, 1].max() + 1), bin_size):
+        for ybin in range(0, int(self.allspikes[:, 3].max() + 1), bin_size):
             vm_dict[ybin] = {}
-            for xbin in range(0, int(arr[:, 0].max() + 1), bin_size):
+            for xbin in range(0, int(self.allspikes[:, 2].max() + 1), bin_size):
                 phases = []
                 vm_dict[ybin][xbin] = []
                 for spike in arr:
@@ -111,14 +111,14 @@ class gridCells:
                 y -= 1
                 
             phases.append(self.phase_df.iloc[y_size - y, x])
-            #vars.append(self.var_df.iloc[y_size - y, x])
+            vars.append(self.var_df.iloc[y_size - y, x])
         phases = np.asarray(phases)
-        #vars = np.asarray(vars)
-        #diffs = np.abs(phases - phase)*vars
+        vars = np.asarray(vars)
+        diffs = np.abs(phases - phase)*vars
 
         try:
-            #nearest = np.nanargmin(diffs)
-            nearest = np.nanargmin(np.abs(phases - phase))
+            nearest = np.nanargmin(diffs)
+            #nearest = np.nanargmin(np.abs(phases - phase))
         except:
             nearest = 0
 
@@ -203,7 +203,7 @@ class gridCells:
         self.XYspkT[:, 0] -= self.XYspkT[:, 0].min()
         self.scaled_XY = self.XYspkT / 2
         
-        self.diff = int(self.XYspkT.shape[0]/100)
+        self.diff = int(self.XYspkT.shape[0]/150)
         if self.diff < 6:
             self.diff = 6
 
@@ -216,10 +216,6 @@ class gridCells:
             self.phase = np.random.rand(self.spkT.size)*6.28
         
         self.scaled_phase = self.phase - 3.14
-        
-        # Generate mean phase map
-        #vm_arr = np.column_stack((self.XYspkT, self.phase))
-        #self.var_df = self.mean_var_map(vm_arr, 2)
             
         # Generate mean phase map
         XY_odds = odds[:,2:]
@@ -229,6 +225,10 @@ class gridCells:
         self.phase_df = self.mean_phase_map(mpm_arr, 2)
         self.arena_size = self.phase_df.shape
 
+        # Generate mean phase map
+        vm_arr = np.column_stack((XY_odds, odds[:,1]))
+        self.var_df = self.mean_var_map(vm_arr, 2)
+        
         # Main analysis!
         # 1) Combine all data and sort by spike times
         unsorted = np.column_stack((self.spkT, self.scaled_XY, self.scaled_phase))
