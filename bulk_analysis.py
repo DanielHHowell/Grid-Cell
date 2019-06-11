@@ -111,14 +111,14 @@ class gridCells:
                 y -= 1
                 
             phases.append(self.phase_df.iloc[y_size - y, x])
-            vars.append(self.var_df.iloc[y_size - y, x])
+            #vars.append(self.var_df.iloc[y_size - y, x])
         phases = np.asarray(phases)
-        vars = np.asarray(vars)
-        diffs = np.abs(phases - phase)*vars
+        #vars = np.asarray(vars)
+        #diffs = np.abs(phases - phase)*vars
 
         try:
-            nearest = np.nanargmin(diffs)
-            #nearest = np.nanargmin(np.abs(phases - phase))
+            #nearest = np.nanargmin(diffs)
+            nearest = np.nanargmin(np.abs(phases - phase))
         except:
             nearest = 0
 
@@ -213,7 +213,7 @@ class gridCells:
 
         # Load phase data
         if self.control == True:
-            self.phase = np.random.rand(self.spkT.size)*6.28
+            np.random.shuffle(self.phase)
         
         self.scaled_phase = self.phase - 3.14
             
