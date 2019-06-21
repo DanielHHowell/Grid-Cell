@@ -101,20 +101,42 @@ class gridCells:
         y_size = self.arena_size[0] - 1
         phases = []
         vars = []
-        for i in spikes:
-            x = int(i[0])
-            if x >= self.arena_size[1]:
-                x -= 1
+        
 
-            y = int(i[1])
-            if y >= self.arena_size[0]:
-                y -= 1
+            
+        #KNN-like approach - MESSY
+        for i in range(spikes.shape[0]):
+            if i-1<0:
+                cluster = [np.nan, spikes[i], spikes[i+1]]
+            elif i+1==len(spikes):
+                cluster = [spikes[i-1], spikes[i], np.nan]
+            else:
+                cluster = spikes[i-1:i+2]
+            
+            
+            clust_phases = []
+            for j in cluster:
+                if not np.any(np.isnan(j)):
+                    
+                    x = int(j[0])
+                    if x >= self.arena_size[1]:
+                        x -= 1
+
+                    y = int(j[1])
+                    if y >= self.arena_size[0]:
+                        y -= 1
+                    
+                    clust_phases.append(self.phase_df.iloc[y_size - y, x])
+                    
+            phases.append(pycircstat.mean(clust_phases))
                 
-            phases.append(self.phase_df.iloc[y_size - y, x])
+            #phases.append(self.phase_df.iloc[y_size - y, x])
             #vars.append(self.var_df.iloc[y_size - y, x])
-        phases = np.asarray(phases)
+        
+        #phases = np.asarray(phases)
         #vars = np.asarray(vars)
         #diffs = np.abs(phases - phase)*vars
+
 
         try:
             #nearest = np.nanargmin(diffs)
@@ -183,6 +205,21 @@ class gridCells:
 
         return (list(zip(obs_angles, pred_angles)))
 
+    @staticmethod
+    def distances(arr):
+        """Determines the Euclidian distance between the observed and predicted location of the subsequent spike"""
+        
+        dists = []
+        
+        for i in range(len(arr)-1):
+            p0 = [arr[i + 1, 1], arr[i + 1, 2]]
+            p1 = [arr[i, 1] + arr[i, 7], arr[i, 2] + arr[i, 8]]
+            
+            dist = np.sqrt((p0[0] - p1[0])**2 + (p0[1] - p1[1])**2)
+            dists.append(dist)
+        
+        return dists
+    
     def phase_analysis(self):
         """Loads and normalizes data, generates predictions based on
         mean phase map and saves everything in a dataframe"""
@@ -273,12 +310,11 @@ class gridCells:
 
         # Generate observed/predicted circular correlation coefficient
 
-        self.rl, p = pearsonr(self.angles[:, 0], self.angles[:, 1])
-        self.rc = pycircstat.corrcc(np.radians(self.angles[:, 0]), np.radians(self.angles[:, 1]))
+        #self.rl, p = pearsonr(self.angles[:, 0], self.angles[:, 1])
+        #self.rc = pycircstat.corrcc(np.radians(self.angles[:, 0]), np.radians(self.angles[:, 1]))
 
         
-        self.heatmap, xedges, yedges = np.histogram2d(self.angles[:, 0], self.angles[:, 1], bins=30)
-
+        #self.dists = self.distances(self.all)
 
 class figureGenerator:
 
