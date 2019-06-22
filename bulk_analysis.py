@@ -11,11 +11,10 @@ import pycircstat
 
 class gridCells:
 
-    def __init__(self, allspikes, type, control):
+    def __init__(self, allspikes, control):
         assert dir is not None
 
         self.allspikes = allspikes
-        self.type = type
         self.control = control
 
         self.move_thresh = 0.01
@@ -56,7 +55,7 @@ class gridCells:
 
         return phase_df
 
-    def mean_var_map(self, arr, bin_size):
+    def var_map(self, arr, bin_size):
         """Bins data in a 2x2 matrix to the phase variance"""
         vm_dict = {}
         for ybin in range(0, int(self.allspikes[:, 3].max() + 1), bin_size):
@@ -102,45 +101,27 @@ class gridCells:
         phases = []
         vars = []
         
-
+        for i in spikes:
             
-        #KNN-like approach - MESSY
-        for i in range(spikes.shape[0]):
-            if i-1<0:
-                cluster = [np.nan, spikes[i], spikes[i+1]]
-            elif i+1==len(spikes):
-                cluster = [spikes[i-1], spikes[i], np.nan]
-            else:
-                cluster = spikes[i-1:i+2]
+            x = int(i[0])
+            if x >= self.arena_size[1]:
+                x -= 1
             
-            
-            clust_phases = []
-            for j in cluster:
-                if not np.any(np.isnan(j)):
-                    
-                    x = int(j[0])
-                    if x >= self.arena_size[1]:
-                        x -= 1
-
-                    y = int(j[1])
-                    if y >= self.arena_size[0]:
-                        y -= 1
-                    
-                    clust_phases.append(self.phase_df.iloc[y_size - y, x])
-                    
-            phases.append(pycircstat.mean(clust_phases))
+            y = int(i[1])
+            if y >= self.arena_size[0]:
+                y -= 1
                 
-            #phases.append(self.phase_df.iloc[y_size - y, x])
-            #vars.append(self.var_df.iloc[y_size - y, x])
+            phases.append(self.phase_df.iloc[y_size - y, x])
+            vars.append(self.var_df.iloc[y_size - y, x])
         
-        #phases = np.asarray(phases)
-        #vars = np.asarray(vars)
-        #diffs = np.abs(phases - phase)*vars
+        phases = np.asarray(phases)
+        vars = np.asarray(vars)
+        diffs = np.abs(phases - phase)*vars
 
 
         try:
-            #nearest = np.nanargmin(diffs)
-            nearest = np.nanargmin(np.abs(phases - phase))
+            nearest = np.nanargmin(diffs)
+            #nearest = np.nanargmin(np.abs(phases - phase))
         except:
             nearest = 0
 
@@ -262,9 +243,9 @@ class gridCells:
         self.phase_df = self.mean_phase_map(mpm_arr, 2)
         self.arena_size = self.phase_df.shape
 
-        # Generate mean phase map
+        # Generate mean var map
         vm_arr = np.column_stack((XY_odds, odds[:,1]))
-        self.var_df = self.mean_var_map(vm_arr, 2)
+        self.var_df = self.var_map(vm_arr, 2)
         
         # Main analysis!
         # 1) Combine all data and sort by spike times
@@ -289,16 +270,9 @@ class gridCells:
 
         # 6) Generate predictions
 
-        # Spatial Analysis
-        if self.type == 'spatial':
-            predicted = [self.adjacent_matrix([i[1], i[2]], i[4]) for i in combined]
-            predicted_movement = np.asarray(predicted)
-
-        # Temporal Analysis
-        elif self.type == 'temporal':
-            predicted = [self.adjacent_spikes(combined[i:i + self.diff, 1:3], combined[i, 4]) for i in
-                         range(len(combined))]
-            predicted_movement = np.asarray(predicted)
+        predicted = [self.adjacent_spikes(combined[i:i + self.diff, 1:3], combined[i, 4]) for i in
+                     range(len(combined))]
+        predicted_movement = np.asarray(predicted)
 
         # 7) Load all data into dataframe
         self.all = np.column_stack((combined, predicted_movement))
@@ -310,8 +284,8 @@ class gridCells:
 
         # Generate observed/predicted circular correlation coefficient
 
-        #self.rl, p = pearsonr(self.angles[:, 0], self.angles[:, 1])
-        #self.rc = pycircstat.corrcc(np.radians(self.angles[:, 0]), np.radians(self.angles[:, 1]))
+        self.rl, p = pearsonr(self.angles[:, 0], self.angles[:, 1])
+        self.rc = pycircstat.corrcc(np.radians(self.angles[:, 0]), np.radians(self.angles[:, 1]))
 
         
         #self.dists = self.distances(self.all)
